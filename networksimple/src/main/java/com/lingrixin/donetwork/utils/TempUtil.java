@@ -6,17 +6,25 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 
+import com.lingrixin.donetwork.R;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by LRXx on 2017-3-31.
  */
 
 public class TempUtil {
+
+    public static List<String> getList(Context context) {
+        return Arrays.asList(context.getApplicationContext().getResources().getStringArray(R.array.networks));
+    }
 
     public static boolean checkPermission(Context context, String permission) {
         boolean result = false;

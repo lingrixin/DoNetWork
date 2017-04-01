@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="networks">
+        <item>HttpUrlConnection</item>
+        <item>HttpCliect</item>
+        <item>volley</item>
+        <item>okhttp</item>
+        <item>retrofit</item>
+    </string-array>
+
+</resources>
