@@ -3,10 +3,10 @@
 
     <string-array name="networks">
         <item>HttpUrlConnection</item>
-        <item>HttpCliect</item>
-        <item>volley</item>
-        <item>okhttp</item>
-        <item>retrofit</item>
+        <item>HttpClient</item>
+        <item>Volley</item>
+        <item>OkHttp</item>
+        <item>Retrofit</item>
     </string-array>
 
 </resources>
