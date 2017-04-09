@@ -13,7 +13,9 @@
         <TextView
             android:id="@+id/tv_request"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            />
     </ScrollView>
 
     <View
@@ -30,7 +32,9 @@
         <TextView
             android:id="@+id/tv_response"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            />
     </ScrollView>
 
 </LinearLayout>

@@ -6,7 +6,7 @@
 
     <include layout="@layout/include_title" />
 
-
+    <include layout="@layout/include_button"/>
 
     <include layout="@layout/include_dialog"/>
 

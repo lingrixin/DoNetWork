@@ -5,20 +5,20 @@ import android.util.Log;
 import com.lingrixin.donetwork.BuildConfig;
 
 /**
- * Created by LRXx on 2017-3-31.
+ * Created by LRXx open 2017-3-31.
  */
 
 public class L {
 
-    private static boolean on = true;//全局Log开关
+    private static boolean open = true;//全局Log开关
 
     /**
      * 提供一个全局Log开关，默认开启
      *
-     * @param on
+     * @param open
      */
-    public static void setOn(boolean on) {
-        L.on = on;
+    public static void setOpen(boolean open) {
+        L.open = open;
     }
 
     private static final String LOG_PREFIX = "NB_";//程序Log固定前缀
@@ -132,7 +132,7 @@ public class L {
      * @param messages
      */
     private static void log(String tag, int level, Throwable t, Object... messages) {
-        if (on && Log.isLoggable(tag, level)) {
+        if (open && Log.isLoggable(tag, level)) {
             String message;
             if (t == null && messages != null && messages.length == 1) {
                 message = messages[0].toString();

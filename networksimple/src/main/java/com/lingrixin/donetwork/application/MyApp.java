@@ -1,6 +1,7 @@
 package com.lingrixin.donetwork.application;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -9,9 +10,14 @@ import com.umeng.analytics.MobclickAgent;
  */
 
 public class MyApp extends Application {
+    public static Context context=null;
+
+
+
     @Override
     public void onCreate() {
         super.onCreate();
+        context=this;
 //        if (BuildConfig.DEBUG) {
 //            MobclickAgent.enableEncrypt(false);
 //            MobclickAgent.setDebugMode(true);

@@ -23,6 +23,11 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".business.urlhttpconnection.UrlHttpConnectionActivity"/>
+        <activity android:name=".business.httpcliect.HttpCliectActivity"/>
+        <activity android:name=".business.volley.VolleyActivity"/>
+        <activity android:name=".business.okhttp.OkhttpActivity"/>
+        <activity android:name=".business.retrofit.RetrofitActivity"/>
         <!-- umeng start -->
         <meta-data android:value="58dce5b61c5dd0472e000c0f" android:name="UMENG_APPKEY"/>
         <meta-data android:value="GitHub" android:name="UMENG_CHANNEL"/>
