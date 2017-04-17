@@ -1,22 +1,17 @@
 package com.lingrixin.donetwork.business.urlhttpconnection;
 
-import android.support.annotation.UiThread;
-import android.util.Log;
-
 import com.lingrixin.donetwork.base.BusinessBaseActivity;
 import com.lingrixin.donetwork.utils.Constant;
-import com.lingrixin.donetwork.utils.L;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
-
 
 /**
  * Created by songy on 2017/4/3.
@@ -26,7 +21,45 @@ public class UrlHttpConnectionActivity extends BusinessBaseActivity {
 
     @Override
     protected void mPost() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url=new URL(Constant.LOGIN);
+                    HttpURLConnection connection= (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setConnectTimeout(5000);
+                    connection.setReadTimeout(5000);
+                    connection.setDoOutput(true);
+                    String data="action=Submit&mobile=17801050463&password=123456";
+                    OutputStream outputStream = connection.getOutputStream();
+                    outputStream.write(data.getBytes());
+                    connection.connect();
+                    InputStream inputStream=null;
+                    BufferedReader reader=null;
+                    if(connection.getResponseCode()==HttpURLConnection.HTTP_OK){
+                        inputStream=connection.getInputStream();
+                        reader=new BufferedReader(new InputStreamReader(inputStream));
+                        final String result=reader.readLine();
+                        //子线程不能更新UI线程的内容，要更新需要开启一个Ui线程，这里Toast要在Ui线程
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                               tvResponse.setText(result);
+                            }
+                        });
+                    }
+                    reader.close();
+                    inputStream.close();
+                    connection.disconnect();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
+            }
+        }).start();
     }
 
     @Override
@@ -34,54 +67,33 @@ public class UrlHttpConnectionActivity extends BusinessBaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                HttpURLConnection connection = null;
                 try {
-                    URL url = new URL(Constant.VOLLEY_GET_URL);
-                    connection = (HttpURLConnection) url.openConnection();
+                    final URL url = new URL(Constant.GET_ALL_URL);
+                    HttpURLConnection connection= (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
-                    connection.setRequestProperty("Charset","UTF-8");
-//                    connection.setRequestProperty("Content-Type","text/xml;charset=UTF-8");
-//                    connection.setRequestProperty("Cookie","AppName="+ URLEncoder.encode("你好","UTF-8"));
-//                    connection.setR
-                    connection.setReadTimeout(5000);
                     connection.setConnectTimeout(5000);
-                    connection.setRequestProperty("phone","13552889718");
-                    connection.setRequestProperty("key","de3fa871faf4dd5fbe62be8e37dabb2f");
-
-                    HashMap map = (HashMap) connection.getHeaderFields();
-                    Set<String> set = map.keySet();
-                    Iterator it=set.iterator();
-                    while (it.hasNext()){
-                        String key= (String) it.next();
-                        String value= (String) map.get(key);
-                        L.i(TAG,"key:"+key+"value:"+value);
-                    }
-
-                    if(connection.getResponseCode() == 200){
-                        L.i(TAG,"Response:"+connection.getResponseMessage());
-                        InputStream is =connection.getInputStream();
-                        final ByteArrayOutputStream os = new ByteArrayOutputStream();
-                        int len = 0;
-                        byte buffer[]=new byte[1024];
-                        while ((len=is.read(buffer)) !=-1) {
-                            os.write(buffer, 0, len);
-                        }
-                        is.close();
-                        os.close();
+                    connection.setReadTimeout(5000);
+                    connection.connect();
+                    InputStream inputStream=null;
+                    BufferedReader reader=null;
+                    if(connection.getResponseCode()==HttpURLConnection.HTTP_OK){
+                        inputStream=connection.getInputStream();
+                        reader=new BufferedReader(new InputStreamReader(inputStream));
+                        final String result=reader.readLine();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                tvResponse.setText(new String(os.toByteArray()));
+                                tvRequest.setText("host:"+url.getHost()+"\n"+"path:"+url.getPath()+"\n"+"request_path:"+url.toString());
+                                tvResponse.setText(result);
                             }
                         });
-                    }else {
-                        L.i(TAG,"else");
                     }
-                } catch (Exception e) {
-                    L.i(TAG,"ERROR"+e.getMessage());
-                } finally {
-
-
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }).start();
