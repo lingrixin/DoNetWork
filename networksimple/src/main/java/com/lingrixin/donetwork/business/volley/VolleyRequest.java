@@ -1,10 +1,5 @@
 package com.lingrixin.donetwork.business.volley;
 
-import java.net.URLEncoder;
-import java.util.HashMap;
-
-import org.apache.http.protocol.HTTP;
-
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -17,6 +12,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.lingrixin.donetwork.application.MyApp;
+
+import org.apache.http.protocol.HTTP;
+
+import java.net.URLEncoder;
+import java.util.HashMap;
 
 public class VolleyRequest {
 
@@ -48,7 +48,7 @@ public class VolleyRequest {
     }
 
     public void volleyPost(String url, final HashMap<String, String> hashMap,
-            final ResultCallback resultCallback,boolean isCache, String tag) {
+                           final ResultCallback resultCallback, boolean isCache, String tag) {
 
 		volleyRequsest(Method.POST, url, hashMap, resultCallback,isCache, tag);
     }
@@ -60,7 +60,7 @@ public class VolleyRequest {
 
     @SuppressWarnings("deprecation")
 	public void volleyGet(String url, final HashMap<String, String> hashMap,
-            final ResultCallback resultCallback, String tag) {
+                          final ResultCallback resultCallback, String tag) {
 
         StringBuilder sb = new StringBuilder(url);
         if (hashMap != null) {
@@ -78,8 +78,8 @@ public class VolleyRequest {
     }
 
     private void volleyRequsest(int method, String url,
-            final HashMap<String, String> hashMap,
-            final ResultCallback resultCallback, boolean isCache, String tag) {
+                                final HashMap<String, String> hashMap,
+                                final ResultCallback resultCallback, boolean isCache, String tag) {
         StringRequest mStringRequest = new StringRequest(method, url,
                 new Response.Listener<String>() {
 
@@ -100,16 +100,16 @@ public class VolleyRequest {
             // 重写parseNetworkResponse方法改变返回头参数解决乱码问题  
             // 主要是看服务器编码，如果服务器编码不是UTF-8的话那么就需要自己转换，反之则不需要  
             @Override  
-            protected Response<String> parseNetworkResponse(  
-                    NetworkResponse response) {  
+            protected Response<String> parseNetworkResponse(
+                    NetworkResponse response) {
                 try {  
-                    String type = response.headers.get(HTTP.CONTENT_TYPE);  
+                    String type = response.headers.get(HTTP.CONTENT_TYPE);
                     if (type == null) {  
                         type = TYPE_UTF8_CHARSET;  
-                        response.headers.put(HTTP.CONTENT_TYPE, type);  
+                        response.headers.put(HTTP.CONTENT_TYPE, type);
                     } else if (!type.contains("UTF-8")) {  
                         type += ";" + TYPE_UTF8_CHARSET;  
-                        response.headers.put(HTTP.CONTENT_TYPE, type);  
+                        response.headers.put(HTTP.CONTENT_TYPE, type);
                     }  
                 } catch (Exception e) {  
                 }  

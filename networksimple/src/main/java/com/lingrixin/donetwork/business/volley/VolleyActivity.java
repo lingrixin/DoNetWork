@@ -14,7 +14,24 @@ public class VolleyActivity extends BusinessBaseActivity {
 
     @Override
     protected void mPost() {
+        final HashMap<String, String> hashMap=new HashMap<String, String>();
+        hashMap.put("action","Submit");
+        hashMap.put("mobile","17801050463");
+        hashMap.put("password","123456");
+        VolleyRequest.getInstance().volleyPost(Constant.LOGIN, hashMap,
+                new ResultCallback() {
 
+                    @Override
+                    public void onSuccess(String response) {
+                        tvRequest.setText(Constant.LOGIN);
+                        tvResponse.setText(response);
+                    }
+
+                    @Override
+                    public void onFailed(VolleyError error) {
+                        tvResponse.setText(error.getMessage());
+                    }
+                });
     }
 
     @Override
@@ -22,8 +39,8 @@ public class VolleyActivity extends BusinessBaseActivity {
         HashMap<String,String> params=new HashMap<>();
         params.put("phone","13552889718");
         params.put("key","de3fa871faf4dd5fbe62be8e37dabb2f");
-        tvRequest.setText("参数：phone"+params.get("phone")+";key:"+params.get("key")+"\n"+"路径:"+Constant.VOLLEY_GET_URL);
-        VolleyRequest.getInstance().volleyGet(Constant.VOLLEY_GET_URL, params, new ResultCallback() {
+        tvRequest.setText(Constant.GET_ALL_URL);
+        VolleyRequest.getInstance().volleyGet(Constant.GET_URL, params, new ResultCallback() {
             @Override
             public void onSuccess(String response) {
                 tvResponse.setText(response);
