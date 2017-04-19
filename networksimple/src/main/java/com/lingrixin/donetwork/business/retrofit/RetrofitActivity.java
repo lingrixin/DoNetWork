@@ -1,5 +1,6 @@
 package com.lingrixin.donetwork.business.retrofit;
 
+import com.lingrixin.donetwork.R;
 import com.lingrixin.donetwork.base.BusinessBaseActivity;
 import com.lingrixin.donetwork.utils.Constant;
 import com.lingrixin.donetwork.utils.L;
@@ -66,5 +67,10 @@ public class RetrofitActivity extends BusinessBaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected String setTitle() {
+        return getResources().getString(R.string.retrofit);
     }
 }

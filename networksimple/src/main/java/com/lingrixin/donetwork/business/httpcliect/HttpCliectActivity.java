@@ -1,5 +1,6 @@
 package com.lingrixin.donetwork.business.httpcliect;
 
+import com.lingrixin.donetwork.R;
 import com.lingrixin.donetwork.base.BusinessBaseActivity;
 import com.lingrixin.donetwork.utils.Constant;
 
@@ -79,5 +80,10 @@ public class HttpCliectActivity extends BusinessBaseActivity {
                 }
             }
         }).start();
+    }
+
+    @Override
+    protected String setTitle() {
+        return getResources().getString(R.string.http_client);
     }
 }

@@ -1,5 +1,6 @@
 package com.lingrixin.donetwork.business.okhttp;
 
+import com.lingrixin.donetwork.R;
 import com.lingrixin.donetwork.base.BusinessBaseActivity;
 import com.lingrixin.donetwork.utils.Constant;
 import com.squareup.okhttp.Call;
@@ -76,5 +77,10 @@ public class OkhttpActivity extends BusinessBaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected String setTitle() {
+        return getResources().getString(R.string.okhttp);
     }
 }

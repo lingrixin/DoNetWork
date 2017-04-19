@@ -37,9 +37,12 @@ public abstract class BusinessBaseActivity extends BaseActivity {
 
     protected abstract void mGet();
 
+    protected abstract String setTitle();
+
     @Override
     protected void setup() {
         initClick();
+        tvTitle.setText(setTitle());
     }
 
     /**

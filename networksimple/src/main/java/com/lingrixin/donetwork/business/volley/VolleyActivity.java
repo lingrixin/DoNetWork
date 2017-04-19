@@ -1,6 +1,7 @@
 package com.lingrixin.donetwork.business.volley;
 
 import com.android.volley.VolleyError;
+import com.lingrixin.donetwork.R;
 import com.lingrixin.donetwork.base.BusinessBaseActivity;
 import com.lingrixin.donetwork.utils.Constant;
 
@@ -51,5 +52,10 @@ public class VolleyActivity extends BusinessBaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected String setTitle() {
+        return getResources().getString(R.string.volley);
     }
 }
