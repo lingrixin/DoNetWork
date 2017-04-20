@@ -1,8 +1,9 @@
 package com.lingrixin.donetwork.business.volley;
 
-import com.android.volley.VolleyError;
 import com.lingrixin.donetwork.R;
 import com.lingrixin.donetwork.base.BusinessBaseActivity;
+import com.lingrixin.donetwork.net.N;
+import com.lingrixin.donetwork.net.NetCall;
 import com.lingrixin.donetwork.utils.Constant;
 
 import java.util.HashMap;
@@ -15,41 +16,39 @@ public class VolleyActivity extends BusinessBaseActivity {
 
     @Override
     protected void mPost() {
-        final HashMap<String, String> hashMap=new HashMap<String, String>();
-        hashMap.put("action","Submit");
-        hashMap.put("mobile","17801050463");
-        hashMap.put("password","123456");
-        VolleyRequest.getInstance().volleyPost(Constant.LOGIN, hashMap,
-                new ResultCallback() {
+        final HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("action", "Submit");
+        hashMap.put("mobile", "17801050463");
+        hashMap.put("password", "123456");
+        N n = new N(new VolleyImp());
+        n.mPost(Constant.LOGIN, hashMap, new NetCall() {
+            @Override
+            public void success(String result) {
+                tvRequest.setText(Constant.LOGIN);
+                tvResponse.setText(result);
+            }
 
-                    @Override
-                    public void onSuccess(String response) {
-                        tvRequest.setText(Constant.LOGIN);
-                        tvResponse.setText(response);
-                    }
-
-                    @Override
-                    public void onFailed(VolleyError error) {
-                        tvResponse.setText(error.getMessage());
-                    }
-                });
+            @Override
+            public void failed(String msg) {
+                tvResponse.setText(msg);
+            }
+        });
     }
 
     @Override
     protected void mGet() {
-        HashMap<String,String> params=new HashMap<>();
-        params.put("phone","13552889718");
-        params.put("key","de3fa871faf4dd5fbe62be8e37dabb2f");
-        tvRequest.setText(Constant.GET_ALL_URL);
-        VolleyRequest.getInstance().volleyGet(Constant.GET_URL, params, new ResultCallback() {
+        N n = new N(new VolleyImp());
+        n.mGet(Constant.GET_ALL_URL, new NetCall() {
             @Override
-            public void onSuccess(String response) {
-                tvResponse.setText(response);
+            public void success(String result) {
+                tvRequest.setText(Constant.GET_ALL_URL);
+                tvResponse.setText(result);
             }
 
             @Override
-            public void onFailed(VolleyError error) {
-
+            public void failed(String msg) {
+                tvRequest.setText(Constant.GET_ALL_URL);
+                tvResponse.setText(msg);
             }
         });
     }

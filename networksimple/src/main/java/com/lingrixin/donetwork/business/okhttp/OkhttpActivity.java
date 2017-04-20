@@ -2,16 +2,12 @@ package com.lingrixin.donetwork.business.okhttp;
 
 import com.lingrixin.donetwork.R;
 import com.lingrixin.donetwork.base.BusinessBaseActivity;
+import com.lingrixin.donetwork.net.N;
+import com.lingrixin.donetwork.net.NetCall;
 import com.lingrixin.donetwork.utils.Constant;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by songy on 2017/4/3.
@@ -21,60 +17,60 @@ public class OkhttpActivity extends BusinessBaseActivity {
 
     @Override
     protected void mPost() {
-        String url = Constant.LOGIN;
-        OkHttpClient mOkHttpClient = new OkHttpClient();
-        RequestBody formBody = new FormEncodingBuilder()
-                .add("action", "Submit")
-                .add("mobile", "17801050463")
-                .add("password", "123456")
-                .build();
-        final Request request = new Request.Builder().url(url).post(formBody).build();
-        mOkHttpClient.newCall(request).enqueue(new Callback() {
+        N n = new N(new OkImp());
+        Map<String,String> map = new HashMap<>();
+        map.put("action", "Submit");
+        map.put("mobile", "17801050463");
+        map.put("password", "123456");
+        n.mPost(Constant.LOGIN, map, new NetCall() {
             @Override
-            public void onFailure(Request request, IOException e) {
-
+            public void success(final String result) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvRequest.setText(Constant.LOGIN);
+                        tvResponse.setText(result);
+                    }
+                });
             }
 
             @Override
-            public void onResponse(final Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    final String message = response.body().string();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            tvRequest.setText(request.urlString());
-                            tvResponse.setText(message);
-                        }
-                    });
-                }
+            public void failed(final String msg) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvRequest.setText(Constant.LOGIN);
+                        tvResponse.setText(msg);
+                    }
+                });
             }
         });
     }
 
     @Override
     protected void mGet() {
-        String url = Constant.GET_ALL_URL;
-        OkHttpClient mOkHttpClient = new OkHttpClient();
-        final Request request = new Request.Builder().url(url).build();
-        Call call = mOkHttpClient.newCall(request);
-        call.enqueue(new Callback() {
+        N n = new N(new OkImp());
+        n.mGet(Constant.GET_ALL_URL, new NetCall() {
             @Override
-            public void onFailure(Request request, IOException e) {
-
+            public void success(final String result) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvRequest.setText(Constant.GET_ALL_URL);
+                        tvResponse.setText(result);
+                    }
+                });
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    final String message = response.body().string();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            tvRequest.setText(request.urlString());
-                            tvResponse.setText(message);
-                        }
-                    });
-                }
+            public void failed(final String msg) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvRequest.setText(Constant.GET_ALL_URL);
+                        tvResponse.setText(msg);
+                    }
+                });
             }
         });
     }

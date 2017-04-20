@@ -3,7 +3,6 @@ package com.lingrixin.donetwork.business.urlhttpconnection;
 import com.lingrixin.donetwork.net.LogNet;
 import com.lingrixin.donetwork.net.NF;
 import com.lingrixin.donetwork.net.NetCall;
-import com.lingrixin.donetwork.utils.Constant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -55,13 +55,6 @@ public class UrlImpl implements NF {
                         } catch (JSONException e) {
                             nc.failed("解析错误");
                         }
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                tvRequest.setText("host:"+url.getHost()+"\n"+"path:"+url.getPath()+"\n"+"request_path:"+url.toString());
-//                                tvResponse.setText(result);
-//                            }
-//                        });
                     }
                     if (reader != null) {
                         reader.close();
@@ -69,9 +62,7 @@ public class UrlImpl implements NF {
                     if (inputStream != null) {
                         inputStream.close();
                     }
-                    if (connection != null) {
-                        connection.disconnect();
-                    }
+                    connection.disconnect();
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (ProtocolException e) {
@@ -84,18 +75,19 @@ public class UrlImpl implements NF {
     }
 
     @Override
-    public void post(final String mUrl, Map par, final NetCall nc) {
+    public void post(final String mUrl, final Map par, final NetCall nc) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     URL url = new URL(mUrl);
+                    String p = (String) par.get("1");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setConnectTimeout(5000);
                     connection.setReadTimeout(5000);
                     connection.setDoOutput(true);
-                    String data = "action=Submit&mobile=17801050463&password=123456";
+                    String data = parser(par);
                     OutputStream outputStream = connection.getOutputStream();
                     outputStream.write(data.getBytes());
                     connection.connect();
@@ -108,33 +100,44 @@ public class UrlImpl implements NF {
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             String desc = jsonObject.getString("desc");
-                            if("SUCCESS".equals(desc)){
+                            if ("SUCCESS".equals(desc)) {
                                 nc.success(result);
-                            }else {
+                            } else {
                                 nc.failed(desc);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-                        //子线程不能更新UI线程的内容，要更新需要开启一个Ui线程，这里Toast要在Ui线程
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tvResponse.setText(result);
-                            }
-                        });
                     }
-                    reader.close();
-                    inputStream.close();
+                    if (reader != null) {
+                        reader.close();
+                    }
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
                     connection.disconnect();
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }).start();
+    }
+
+    private String parser(Map<String, Object> map) {
+        StringBuilder b = new StringBuilder();
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry element = (Map.Entry) it.next();
+            b.append(element.getKey());
+            b.append("=");
+            b.append(element.getValue());
+            b.append("&");
+        }
+        if (b.length() > 0) {
+            b.deleteCharAt(b.length() - 1);
+        }
+        return b.toString();
     }
 }
