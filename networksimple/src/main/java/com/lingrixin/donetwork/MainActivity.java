@@ -1,6 +1,5 @@
 package com.lingrixin.donetwork;
 
-import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,6 +13,7 @@ import com.lingrixin.donetwork.business.okhttp.OkhttpActivity;
 import com.lingrixin.donetwork.business.retrofit.RetrofitActivity;
 import com.lingrixin.donetwork.business.urlhttpconnection.UrlHttpConnectionActivity;
 import com.lingrixin.donetwork.business.volley.VolleyActivity;
+import com.lingrixin.donetwork.business.xuilts.XUtilsActvity;
 import com.lingrixin.donetwork.utils.TempUtil;
 
 import butterknife.BindView;
@@ -44,12 +44,15 @@ public class MainActivity extends BaseActivity {
                         startActivity(HttpCliectActivity.class);
                         break;
                     case 2:
-                        startActivity(VolleyActivity.class);
+                        startActivity(XUtilsActvity.class);
                         break;
                     case 3:
-                        startActivity(OkhttpActivity.class);
+                        startActivity(VolleyActivity.class);
                         break;
                     case 4:
+                        startActivity(OkhttpActivity.class);
+                        break;
+                    case 5:
                         startActivity(RetrofitActivity.class);
                         break;
                 }

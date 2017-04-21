@@ -3,6 +3,7 @@
 
     <string name="http_url_connection">HttpUrlConnection</string>
     <string name="http_client">HttpClient</string>
+    <string name="xutils">XUtils</string>
     <string name="volley">Volley</string>
     <string name="okhttp">OkHttp</string>
     <string name="retrofit">Retrofit</string>
