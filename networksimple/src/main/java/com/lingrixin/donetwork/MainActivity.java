@@ -3,7 +3,6 @@ package com.lingrixin.donetwork;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.lingrixin.donetwork.adapter.MyAdapter;
 import com.lingrixin.donetwork.adapter.SpacesItemDecoration;
@@ -34,8 +33,16 @@ public class MainActivity extends BaseActivity {
         adapter.setItemClick(new MyAdapter.itemClick() {
             @Override
             public void click(View v, int position) {
-                Toast.makeText(MainActivity.this, "我是第" + position + "个", Toast.LENGTH_SHORT).show();
-                Toast.makeText(MainActivity.this, "我" + TempUtil.getList(MainActivity.this).get(position), Toast.LENGTH_SHORT).show();
+                /**
+                 * <string-array name="networks">
+                 * <item>HttpUrlConnection</item>
+                 * <item>HttpClient</item>
+                 * <item>XUtils</item>
+                 * <item>Volley</item>
+                 * <item>OkHttp</item>
+                 * <item>Retrofit</item>
+                 * </string-array>
+                 */
                 switch (position) {
                     case 0:
                         startActivity(UrlHttpConnectionActivity.class);
