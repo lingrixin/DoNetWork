@@ -6,7 +6,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.lingrixin.donetwork.R;
-import com.lingrixin.donetwork.utils.V;
+import com.lingrixin.donetwork.utils.Constant;
+import com.lingrixin.donetwork.utils.ViewHelper;
 
 import butterknife.BindView;
 
@@ -49,7 +50,7 @@ public abstract class BusinessBaseActivity extends BaseActivity {
      * 初始化点击事件
      */
     private void initClick() {
-        V.c(l, flBack, cvPost, cvGet);
+        ViewHelper.c(l, flBack, cvPost, cvGet);
     }
 
     View.OnClickListener l = new View.OnClickListener() {
@@ -60,9 +61,11 @@ public abstract class BusinessBaseActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.cv_post:
+                    tvRequest.setText(Constant.LOGIN);
                     mPost();
                     break;
                 case R.id.cv_get:
+                    tvRequest.setText(Constant.GET_ALL_URL);
                     mGet();
                     break;
                 default:
@@ -70,5 +73,14 @@ public abstract class BusinessBaseActivity extends BaseActivity {
             }
         }
     };
+
+    protected void setResult(final String result) {
+        tvResponse.post(new Runnable() {
+            @Override
+            public void run() {
+                tvResponse.setText(result);
+            }
+        });
+    }
 
 }

@@ -1,10 +1,14 @@
 package com.lingrixin.donetwork.business.xuilts;
 
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.lingrixin.donetwork.R;
 import com.lingrixin.donetwork.base.BusinessBaseActivity;
-import com.lingrixin.donetwork.net.N;
-import com.lingrixin.donetwork.net.NetCall;
 import com.lingrixin.donetwork.utils.Constant;
+import com.lingrixin.donetwork.utils.TempUtil;
 
 import java.util.HashMap;
 
@@ -15,41 +19,35 @@ import java.util.HashMap;
 public class XUtilsActvity extends BusinessBaseActivity {
     @Override
     protected void mPost() {
-        final HashMap<String, String> hashMap = new HashMap<String, String>();
-        hashMap.put("action", "Submit");
-        hashMap.put("mobile", "17801050463");
-        hashMap.put("password", "123456");
-        N n = new N(new XUtilsImp());
-        n.mPost(Constant.LOGIN, hashMap, new NetCall() {
+        HttpUtils http = new HttpUtils();
+        http.send(HttpRequest.HttpMethod.POST, Constant.LOGIN, TempUtil.parserParams(TempUtil.getMap()), new RequestCallBack<String>() {
             @Override
-            public void success(String result) {
-                tvRequest.setText(Constant.LOGIN);
-                tvResponse.setText(result);
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                setResult(responseInfo.result);
             }
 
             @Override
-            public void failed(String msg) {
-                tvResponse.setText(msg);
+            public void onFailure(HttpException e, String s) {
+                setResult("请求失败");
             }
         });
     }
 
     @Override
     protected void mGet() {
-        N n = new N(new XUtilsImp());
-        n.mGet(Constant.GET_ALL_URL, new NetCall() {
-            @Override
-            public void success(String result) {
-                tvRequest.setText(Constant.GET_ALL_URL);
-                tvResponse.setText(result);
-            }
+        HttpUtils http = new HttpUtils();
+        http.send(HttpRequest.HttpMethod.GET, Constant.GET_ALL_URL,
+                new RequestCallBack<String>() {
+                    @Override
+                    public void onSuccess(ResponseInfo<String> responseInfo) {
+                        setResult(responseInfo.result);
+                    }
 
-            @Override
-            public void failed(String msg) {
-                tvRequest.setText(Constant.GET_ALL_URL);
-                tvResponse.setText(msg);
-            }
-        });
+                    @Override
+                    public void onFailure(HttpException e, String s) {
+                        setResult("请求失败");
+                    }
+                });
     }
 
     @Override

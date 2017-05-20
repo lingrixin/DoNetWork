@@ -10,4 +10,10 @@ public class Constant {
 
     public static final String HOST = "http://182.92.118.231/index.php/Api/";
     public static final String LOGIN = HOST+"Users/Login";
+
+
+    public static final String BAIDU_HTTP = "http://api.fanyi.baidu.com/api/trans/vip/translate";
+    public static final String BAIDU_HTTPS = "http://api.fanyi.baidu.com/api/trans/vip/translate";
+
+
 }

@@ -2,9 +2,19 @@ package com.lingrixin.donetwork.business.httpcliect;
 
 import com.lingrixin.donetwork.R;
 import com.lingrixin.donetwork.base.BusinessBaseActivity;
-import com.lingrixin.donetwork.net.N;
-import com.lingrixin.donetwork.net.NetCall;
 import com.lingrixin.donetwork.utils.Constant;
+import com.lingrixin.donetwork.utils.TempUtil;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,63 +27,43 @@ public class HttpCliectActivity extends BusinessBaseActivity {
 
     @Override
     protected void mPost() {
-        N n = new N(new ClientImp());
-        Map map = new HashMap();
-        map.put("action", "Submit");
-        map.put("mobile", "17801050463");
-        map.put("password", "123456");
-
-        n.mPost(Constant.LOGIN, map, new NetCall() {
+        new Thread(new Runnable() {
             @Override
-            public void success(final String result) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tvRequest.setText(Constant.LOGIN);
-                        tvResponse.setText(result);
+            public void run() {
+                final HttpPost post = new HttpPost(Constant.LOGIN);//创建HttpPost对象
+                try {
+                    post.setEntity(new UrlEncodedFormEntity(TempUtil.parserList(TempUtil.getMap()), HTTP.UTF_8));
+                    HttpResponse httpResponse = new DefaultHttpClient().execute(post);
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                        HttpEntity entity = httpResponse.getEntity();
+                        final String result = EntityUtils.toString(entity, "utf-8");
+                        setResult(result);
                     }
-                });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
-            @Override
-            public void failed(final String msg) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tvRequest.setText(Constant.LOGIN);
-                        tvResponse.setText(msg);
-                    }
-                });
-            }
-        });
+        }).start();
     }
 
     @Override
     protected void mGet() {
-        N n = new N(new ClientImp());
-        n.mGet(Constant.GET_ALL_URL, new NetCall() {
+        new Thread(new Runnable() {
             @Override
-            public void success(final String result) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tvRequest.setText(Constant.GET_ALL_URL);
-                        tvResponse.setText(result);
+            public void run() {
+                final HttpGet httpget = new HttpGet(Constant.GET_ALL_URL);
+                try {
+                    HttpResponse httpResponse = new DefaultHttpClient().execute(httpget);
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                        HttpEntity entity = httpResponse.getEntity();
+                        final String result = EntityUtils.toString(entity, "utf-8");
+                        setResult(result);
                     }
-                });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
-            @Override
-            public void failed(final String msg) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tvRequest.setText(Constant.GET_ALL_URL);
-                        tvResponse.setText(msg);
-                    }
-                });
-            }
-        });
+        }).start();
     }
 
     @Override
