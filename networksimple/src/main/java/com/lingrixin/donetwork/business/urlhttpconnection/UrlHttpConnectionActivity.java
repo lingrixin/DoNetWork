@@ -33,13 +33,13 @@ public class UrlHttpConnectionActivity extends BusinessBaseActivity {
             @Override
             public void run() {
                 try {
-                    URL url = new URL(Constant.LOGIN);
+                    URL url = new URL(Constant.BAIDU_HTTP);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setConnectTimeout(5000);
                     connection.setReadTimeout(5000);
                     connection.setDoOutput(true);
-                    String data = TempUtil.parser(TempUtil.getMap());
+                    String data = TempUtil.parser(TempUtil.getBaiduMap());
                     OutputStream outputStream = connection.getOutputStream();
                     outputStream.write(data.getBytes());
                     connection.connect();
@@ -73,7 +73,7 @@ public class UrlHttpConnectionActivity extends BusinessBaseActivity {
             @Override
             public void run() {
                 try {
-                    final URL url = new URL(Constant.GET_ALL_URL);
+                    final URL url = new URL(Constant.BAIDU_HTTP_ALL);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
                     connection.setConnectTimeout(5000);

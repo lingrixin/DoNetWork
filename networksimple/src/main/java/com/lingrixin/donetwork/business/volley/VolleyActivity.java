@@ -16,11 +16,9 @@ public class VolleyActivity extends BusinessBaseActivity {
 
     @Override
     protected void mPost() {
-        final HashMap<String, String> hashMap = new HashMap<String, String>();
-        hashMap.put("action", "Submit");
-        hashMap.put("mobile", "17801050463");
-        hashMap.put("password", "123456");
-        VolleyRequest.getInstance().volleyPost(Constant.GET_URL, hashMap,
+        HashMap hashMap = new HashMap<String, String>();
+        hashMap.putAll(TempUtil.getBaiduMap());
+        VolleyRequest.getInstance().volleyPost(Constant.BAIDU_HTTP,hashMap ,
                 new ResultCallback() {
 
                     @Override
@@ -38,9 +36,10 @@ public class VolleyActivity extends BusinessBaseActivity {
     @Override
     protected void mGet() {
         HashMap<String,String> params=new HashMap<>();
-        params.put("phone","13552889718");
-        params.put("key","de3fa871faf4dd5fbe62be8e37dabb2f");
-        VolleyRequest.getInstance().volleyGet(Constant.GET_URL, params, new ResultCallback() {
+//        params.put("phone","13552889718");
+//        params.put("key","de3fa871faf4dd5fbe62be8e37dabb2f");
+        params.putAll(TempUtil.getBaiduMap());
+        VolleyRequest.getInstance().volleyGet(Constant.BAIDU_HTTP, params, new ResultCallback() {
             @Override
             public void onSuccess(String response) {
                 setResult(response);

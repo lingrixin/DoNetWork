@@ -30,9 +30,9 @@ public class HttpCliectActivity extends BusinessBaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final HttpPost post = new HttpPost(Constant.LOGIN);//创建HttpPost对象
+                final HttpPost post = new HttpPost(Constant.BAIDU_HTTP);//创建HttpPost对象
                 try {
-                    post.setEntity(new UrlEncodedFormEntity(TempUtil.parserList(TempUtil.getMap()), HTTP.UTF_8));
+                    post.setEntity(new UrlEncodedFormEntity(TempUtil.parserList(TempUtil.getBaiduMap()), HTTP.UTF_8));
                     HttpResponse httpResponse = new DefaultHttpClient().execute(post);
                     if (httpResponse.getStatusLine().getStatusCode() == 200) {
                         HttpEntity entity = httpResponse.getEntity();
@@ -51,7 +51,7 @@ public class HttpCliectActivity extends BusinessBaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final HttpGet httpget = new HttpGet(Constant.GET_ALL_URL);
+                final HttpGet httpget = new HttpGet(Constant.BAIDU_HTTP_ALL);
                 try {
                     HttpResponse httpResponse = new DefaultHttpClient().execute(httpget);
                     if (httpResponse.getStatusLine().getStatusCode() == 200) {

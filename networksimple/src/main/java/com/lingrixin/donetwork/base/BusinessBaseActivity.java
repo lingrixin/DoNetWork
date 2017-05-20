@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.lingrixin.donetwork.R;
 import com.lingrixin.donetwork.utils.Constant;
+import com.lingrixin.donetwork.utils.TempUtil;
 import com.lingrixin.donetwork.utils.ViewHelper;
 
 import butterknife.BindView;
@@ -61,11 +62,11 @@ public abstract class BusinessBaseActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.cv_post:
-                    tvRequest.setText(Constant.LOGIN);
+                    tvRequest.setText(Constant.BAIDU_HTTP);
                     mPost();
                     break;
                 case R.id.cv_get:
-                    tvRequest.setText(Constant.GET_ALL_URL);
+                    tvRequest.setText(Constant.BAIDU_HTTP_ALL);
                     mGet();
                     break;
                 default:

@@ -24,23 +24,19 @@ public class OkhttpActivity extends BusinessBaseActivity {
 
     @Override
     protected void mPost() {
-        OkHttpClient mOkHttpClient = new OkHttpClient();
-        RequestBody formBody = TempUtil.parserBody(new FormEncodingBuilder(),TempUtil.getMap());
-
-        Request request = new Request.Builder().url(Constant.LOGIN).post(formBody).build();
-        mOkHttpClient.newCall(request).enqueue(new Callback() {
+        tvRequest.setText(Constant.BAIDU_HTTP);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody formBody = TempUtil.parserBody(new FormEncodingBuilder(), TempUtil.getBaiduMap());
+        final Request request = new Request.Builder().url(Constant.BAIDU_HTTP).post(formBody).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 setResult("请求失败");
             }
 
             @Override
-            public void onResponse(final Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    setResult(response.body().string());
-                } else {
-                    onFailure(null, null);
-                }
+            public void onResponse(Response response) throws IOException {
+                setResult(response.body().string());
             }
         });
     }
@@ -48,7 +44,7 @@ public class OkhttpActivity extends BusinessBaseActivity {
     @Override
     protected void mGet() {
         OkHttpClient mOkHttpClient = new OkHttpClient();
-        final Request request = new Request.Builder().url(Constant.GET_ALL_URL).build();
+        final Request request = new Request.Builder().url(Constant.BAIDU_HTTP+"?"+TempUtil.parser(TempUtil.getBaiduMap())).build();
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override

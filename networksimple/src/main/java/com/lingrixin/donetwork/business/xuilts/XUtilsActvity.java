@@ -20,7 +20,7 @@ public class XUtilsActvity extends BusinessBaseActivity {
     @Override
     protected void mPost() {
         HttpUtils http = new HttpUtils();
-        http.send(HttpRequest.HttpMethod.POST, Constant.LOGIN, TempUtil.parserParams(TempUtil.getMap()), new RequestCallBack<String>() {
+        http.send(HttpRequest.HttpMethod.POST, Constant.BAIDU_HTTP, TempUtil.parserParams(TempUtil.getBaiduMap()), new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 setResult(responseInfo.result);
@@ -36,7 +36,7 @@ public class XUtilsActvity extends BusinessBaseActivity {
     @Override
     protected void mGet() {
         HttpUtils http = new HttpUtils();
-        http.send(HttpRequest.HttpMethod.GET, Constant.GET_ALL_URL,
+        http.send(HttpRequest.HttpMethod.GET, Constant.BAIDU_HTTP_ALL,
                 new RequestCallBack<String>() {
                     @Override
                     public void onSuccess(ResponseInfo<String> responseInfo) {
